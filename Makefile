@@ -6,7 +6,10 @@
 CC=gcc
 CFLAGS= -std=c89 -Wall -Wextra -Werror -Wpedantic
 
-all: test cgi-bin/user.cgi
+all: empty_dir test cgi-bin/user.cgi
+
+empty_dir:
+	mkdir users cgi-bin
 
 cgi-bin/user.cgi: src/user_cgi.o src/user.o src/value.o
 	$(CC) src/user_cgi.o src/user.o src/value.o -o cgi-bin/user.cgi $(CFLAGS)
@@ -28,3 +31,4 @@ src/value.o: src/value.c
 
 clean:
 	rm -f src/*.o test* users/* cgi-bin/*
+	rmdir users cgi-bin
