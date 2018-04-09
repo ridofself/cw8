@@ -7,7 +7,7 @@
 #include "value.h"
 
 int main(void)
-{
+	{
 	char *data;
 	char name[NAME_LENGTH];
 	char password[HASH_LENGTH];
@@ -28,6 +28,6 @@ int main(void)
 	printf("<a href=\"../index.html\">return to home page</a>\n\n");
 
 	return 0;
-}
+	}
 
 /* end of user_cgi.c */

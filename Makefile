@@ -6,13 +6,15 @@
 CC=gcc
 CFLAGS= -std=c89 -Wall -Wextra -Werror -Wpedantic
 
-all: empty_dir test cgi-bin/user.cgi
+all: make_dir test cgi-bin/user.cgi
 
-empty_dir:
-	mkdir users cgi-bin
+make_dir:
+	[ -d ./users ] && true || mkdir users
+	[ -d ./cgi-bin ] && true || mkdir cgi-bin
 
 cgi-bin/user.cgi: src/user_cgi.o src/user.o src/value.o
-	$(CC) src/user_cgi.o src/user.o src/value.o -o cgi-bin/user.cgi $(CFLAGS)
+	$(CC) src/user_cgi.o src/user.o src/value.o \
+	-o cgi-bin/user.cgi $(CFLAGS)
 
 src/user_cgi.o: src/user_cgi.c src/user.h
 	$(CC) -c src/user_cgi.c -o src/user_cgi.o $(CFLAGS)
@@ -31,4 +33,5 @@ src/value.o: src/value.c
 
 clean:
 	rm -f src/*.o test* users/* cgi-bin/*
-	rmdir users cgi-bin
+	[ -d ./users ] && rmdir users || true
+	[ -d ./cgi-bin ] && rmdir cgi-bin || true

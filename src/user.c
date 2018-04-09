@@ -9,7 +9,7 @@ static const struct user user_empty;
 static char user_folder[NAME_LENGTH] = "users/";
 
 struct user user_new(const char *name, const char* password)
-{
+	{
 	unsigned int i;
 	struct user newUser;
 
@@ -26,27 +26,29 @@ struct user user_new(const char *name, const char* password)
 	strcpy(newUser.password, password);
 
 	return newUser;
-}
+	}
 
 int user_save(struct user user)
-{
+	{
 	FILE *file;
 	char filePath[NAME_LENGTH + NAME_LENGTH];
 
 	sprintf(filePath, "%s%s", user_folder, user.name);
 
-	if ( (file = fopen(filePath, "r")) != NULL ) { /* can file be read? */
+	if ( (file = fopen(filePath, "r")) != NULL ) /* can file be read? */
+		{
 		fclose(file);
-		return -1; } /* file already exists, don't overwrite */
+		return -1; /* file already exists, don't overwrite */
+		}
 
 	file = fopen(filePath, "wb"); /* file created */
 	fwrite(&user, sizeof (struct user), 1, file); /* user saved */
 	fclose(file);
 	return 0;
-}
+	}
 
 struct user user_load(char *name)
-{
+	{
 	FILE *file;
 	struct user user;
 	char filePath[NAME_LENGTH + NAME_LENGTH];
@@ -60,14 +62,14 @@ struct user user_load(char *name)
 	if ( (file = fopen(filePath, "rb") ) == NULL )
 		return user_empty; /* file does not exist */
 
-	fread(&user, sizeof (struct user), 1, file); /* re-create user */
-	remove(filePath);
+	fread(&user, sizeof (struct user), 1, file); /* extract user */
+	remove(filePath); /* no user file when user is in memory */
 	fclose(file);
 	return user;
-}
+	}
 
 int user_name_check(char *name)
-{
+	{
 	unsigned int i;
 	FILE *file;
 	char filePath[NAME_LENGTH + NAME_LENGTH];
@@ -81,6 +83,6 @@ int user_name_check(char *name)
 		return -2; } /* file already exists */
 
 	return 0; /* file does not exist */
-}
+	}
 
 /* end of user.c */
